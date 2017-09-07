@@ -1,0 +1,49 @@
+﻿@model IEnumerable<GeekBrainsWork1.Models.Employee>
+@using GeekBrainsWork1.Code;
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<table class="table_blur">
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.SurName</td>
+            @if (EmployeeAndUser.IsUserAdmin(HttpContext.Current.User.Identity.Name))
+            {
+                <td>
+                    <a href="@Url.Action("PeopleInfo", new {id = @item.Id})"
+                       title="Перейти">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("DeleteEmployee", new {id = item.Id})"
+                       title="Удалить">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                </td>
+            }
+
+        </tr>
+    }
+</table>
+<br />
+@if (EmployeeAndUser.IsUserAdmin(HttpContext.Current.User.Identity.Name))
+{
+    <div>
+        <a class="btn btn-default" href="@Url.Action("CreateEmployee")" role="button">Добавить</a>
+    </div>
+}
+<br />
+<div>
+    <a class="btn btn-default" href="@Url.Action("LogOut", "Authentication")" role="button">Разлогиниться</a>
+</div>
+
+
+
