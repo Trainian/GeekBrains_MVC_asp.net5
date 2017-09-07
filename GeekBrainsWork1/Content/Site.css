@@ -179,3 +179,8 @@ textarea {
     padding: 12px 10px;
     width: 238px;
 }
+
+.partialview {
+    float: right;
+    color: lightgray;
+}

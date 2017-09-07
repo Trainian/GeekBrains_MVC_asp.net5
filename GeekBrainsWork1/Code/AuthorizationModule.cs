@@ -1,12 +1,9 @@
-﻿using GeekBrainsWork1.Code;
-using System;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-
-namespace GeekBrainsWork1.Content
+﻿namespace GeekBrainsWork1.Code
 {
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+
     public class AuthorizationModule
     {
         public class MyAuthorizeAttribute : AuthorizeAttribute
@@ -14,54 +11,55 @@ namespace GeekBrainsWork1.Content
             private string[] allowedUsers = new string[] { };
             private string[] allowedRoles = new string[] { };
 
-            public MyAuthorizeAttribute()
-            { }
-
             protected override bool AuthorizeCore(HttpContextBase httpContext)
             {
-                if (!String.IsNullOrEmpty(base.Users))
+                if (!string.IsNullOrEmpty(this.Users))
                 {
-                    allowedUsers = base.Users.Split(new char[] { ',' });
-                    for (int i = 0; i < allowedUsers.Length; i++)
+                    this.allowedUsers = this.Users.Split(new[] { ',' });
+                    for (int i = 0; i < this.allowedUsers.Length; i++)
                     {
-                        allowedUsers[i] = allowedUsers[i].Trim();
+                        this.allowedUsers[i] = this.allowedUsers[i].Trim();
                     }
                 }
-                if (!String.IsNullOrEmpty(base.Roles))
+
+                if (!string.IsNullOrEmpty(this.Roles))
                 {
-                    allowedRoles = base.Roles.Split(new char[] { ',' });
-                    for (int i = 0; i < allowedRoles.Length; i++)
+                    this.allowedRoles = this.Roles.Split(',');
+                    for (int i = 0; i < this.allowedRoles.Length; i++)
                     {
-                        allowedRoles[i] = allowedRoles[i].Trim();
+                        this.allowedRoles[i] = this.allowedRoles[i].Trim();
                     }
                 }
 
                 return httpContext.Request.IsAuthenticated &&
-                     User(httpContext) && Role(httpContext);
+                     this.User(httpContext) && this.Role(httpContext);
             }
 
             private bool User(HttpContextBase httpContext)
             {
-                if (allowedUsers.Length > 0)
+                if (this.allowedUsers.Length > 0)
                 {
-                    return allowedUsers.Contains(httpContext.User.Identity.Name);
+                    return this.allowedUsers.Contains(httpContext.User.Identity.Name);
                 }
+
                 return true;
             }
 
             private bool Role(HttpContextBase httpContext)
             {
-                if (allowedRoles.Length > 0)
+                if (this.allowedRoles.Length > 0)
                 {
-                    for (int i = 0; i < allowedRoles.Length; i++)
+                    foreach (string dummy in this.allowedRoles)
                     {
-                        if (EmployeeAndUser.GetUserList().Any(e => e.Name.Trim().ToLower() == httpContext.User.Identity.Name.Trim().ToLower() && e.Roles == allowedRoles[0]))
+                        if (EmployeeAndUser.GetUserList().Any(e => e.Name.Trim().ToLower() == httpContext.User.Identity.Name.Trim().ToLower() && e.Roles == this.allowedRoles[0]))
                         {
                             return true;
                         }
                     }
+
                     return false;
                 }
+
                 return true;
             }
         }
