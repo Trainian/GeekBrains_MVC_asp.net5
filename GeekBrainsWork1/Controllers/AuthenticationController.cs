@@ -15,17 +15,6 @@ namespace GeekBrainsWork1.Controllers
     {
 
         [HttpGet]
-        public ActionResult UserInfo()
-        {
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
-            {
-                var userName = Thread.CurrentPrincipal.Identity.Name;
-                return PartialView("_User", userName);
-            }
-            return PartialView("_User");
-        }
-
-        [HttpGet]
         public ActionResult LogOn()
         {
             return View(new AuthenticationParams { });

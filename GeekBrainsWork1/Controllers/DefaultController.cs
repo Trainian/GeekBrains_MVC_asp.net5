@@ -9,10 +9,21 @@ namespace GeekBrainsWork1.Controllers
     using GeekBrainsWork1.Code;
     using GeekBrainsWork1.Content;
     using GeekBrainsWork1.Models;
+    using System.Threading;
     using static GeekBrainsWork1.Content.AuthorizationModule;
 
     public class DefaultController : Controller
     {
+        [HttpGet]
+        public ActionResult UserInfo()
+        {
+            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            {
+                var userName = Thread.CurrentPrincipal.Identity.Name;
+                return PartialView("_UserInfo", userName);
+            }
+            return PartialView("_UserInfo");
+        }
 
         // GET: Default
         [HttpGet]
