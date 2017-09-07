@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace GeekBrainsWork1.Models
+﻿namespace GeekBrainsWork1.Code
 {
-    public class CustomRoles
+    public static class CustomRoles
     {
         public const string Administrator = "Full";
         public const string User = "Mini";

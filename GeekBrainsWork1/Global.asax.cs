@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Data.Entity;
+using GeekBrainsWork1.DAL.Context;
 
 namespace GeekBrainsWork1
 {
