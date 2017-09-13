@@ -1,29 +1,19 @@
-﻿namespace GeekBrainsWork1.Code
+﻿using GeekBrainsWork1.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace GeekBrainsWork1.Code
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using GeekBrainsWork1.Models;
-
     public class EmployeeAndUser
     {
         #region Create Lists
         private static List<User> usersList = new List<User>
-                                                  {
-                                                      new User
-                                                          {
-                                                              Name = "Admin",
-                                                              Password = "12345",
-                                                              Roles = "Full"
-                                                          },
-                                                      new User
-                                                          {
-                                                              Name = "User",
-                                                              Password = "12345",
-                                                              Roles = "Mini"
-                                                          }
-                                                  };
+        {
+            new User{Name = "Admin", Password = "12345", Roles = "Full"},
+            new User{Name = "User", Password = "12345", Roles = "Mini"}
+        };
 
         private static List<Employee> employeeList = new List<Employee>
                                 {
@@ -56,9 +46,8 @@
 
         public static void EditOrAdd(Employee model)
         {
-            if (employeeList.Any(e => e.Id == model.Id))
+            if (employeeList.Any(e => e.Id == model.Id)) //Если есть уже такой ID (идентификатор), то просто редактируем
             {
-                // Если есть уже такой ID (идентификатор), то просто редактируем
                 var index = employeeList.FindIndex(e => e.Id == model.Id);
                 employeeList[index].FirstName = model.FirstName;
                 employeeList[index].SurName = model.SurName;
@@ -66,9 +55,8 @@
                 employeeList[index].Age = model.Age;
                 employeeList[index].BirthDate = model.BirthDate;
             }
-            else
+            else //Если нету такого ID (идентификатора), то это новый экземпляр
             {
-                // Если нету такого ID (идентификатора), то это новый экземпляр
                 model.Id = employeeList.Max(e => e.Id) + 1;
                 employeeList.Add(model);
             }
