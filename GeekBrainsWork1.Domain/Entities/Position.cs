@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity.ModelConfiguration;
+using System.ComponentModel;
 
 namespace GeekBrainsWork1.Domain.Entities
 {
     public class Position
     {
         public int Id { get; set; }
+        [DisplayName("Должность")]
         public string Name { get; set; }
     }
 

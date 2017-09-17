@@ -17,11 +17,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Default", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("GeekBrains First Work", "Index", "Employees", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse partialview">
-                @Html.Action("UserInfo", "Default", "")
                 <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {                        
+                        @Html.Action("UserInfo", "Employees");
+                        @Html.ActionLink("Выйти", "LogOut", "Authentication")
+                    }
                 </ul>
             </div>
         </div>

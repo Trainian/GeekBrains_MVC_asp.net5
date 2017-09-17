@@ -8,18 +8,29 @@ using System.Web;
 using System.Web.Mvc;
 using GeekBrainsWork1.DAL.Context;
 using GeekBrainsWork1.Domain.Entities;
+using System.Threading;
 
 namespace GeekBrainsWork1.Controllers
 {
     public class EmployeesController : Controller
     {
-        private GeekBrainsWork1Context db = new GeekBrainsWork1Context();
+        private GeekBrainsWork1Context dbContext = new GeekBrainsWork1Context();
 
         // GET: Employees
         public ActionResult Index()
         {
-            var employee = db.Employee.Include(e => e.Position);
+            var employee = dbContext.Employee.Include(e => e.Position);
             return View(employee.ToList());
+        }
+
+        public ActionResult UserInfo()
+        {
+            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            {
+                var userName = Thread.CurrentPrincipal.Identity.Name;
+                return PartialView("_UserInfo", userName);
+            }
+            return PartialView("_UserInfo");
         }
 
         // GET: Employees/Details/5
@@ -29,7 +40,7 @@ namespace GeekBrainsWork1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = dbContext.Employee.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -40,7 +51,7 @@ namespace GeekBrainsWork1.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            ViewBag.PositionId = new SelectList(db.Position, "Id", "Name");
+            ViewBag.PositionId = new SelectList(dbContext.Position, "Id", "Name");
             return View();
         }
 
@@ -53,12 +64,12 @@ namespace GeekBrainsWork1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Employee.Add(employee);
-                db.SaveChanges();
+                dbContext.Employee.Add(employee);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PositionId = new SelectList(db.Position, "Id", "Name", employee.PositionId);
+            ViewBag.PositionId = new SelectList(dbContext.Position, "Id", "Name", employee.PositionId);
             return View(employee);
         }
 
@@ -69,12 +80,12 @@ namespace GeekBrainsWork1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = dbContext.Employee.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PositionId = new SelectList(db.Position, "Id", "Name", employee.PositionId);
+            ViewBag.PositionId = new SelectList(dbContext.Position, "Id", "Name", employee.PositionId);
             return View(employee);
         }
 
@@ -87,11 +98,11 @@ namespace GeekBrainsWork1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
+                dbContext.Entry(employee).State = EntityState.Modified;
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PositionId = new SelectList(db.Position, "Id", "Name", employee.PositionId);
+            ViewBag.PositionId = new SelectList(dbContext.Position, "Id", "Name", employee.PositionId);
             return View(employee);
         }
 
@@ -102,7 +113,7 @@ namespace GeekBrainsWork1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = dbContext.Employee.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -115,9 +126,9 @@ namespace GeekBrainsWork1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Employee employee = db.Employee.Find(id);
-            db.Employee.Remove(employee);
-            db.SaveChanges();
+            Employee employee = dbContext.Employee.Find(id);
+            dbContext.Employee.Remove(employee);
+            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -125,7 +136,7 @@ namespace GeekBrainsWork1.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                dbContext.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity.ModelConfiguration;
+using System.ComponentModel.DataAnnotations;
 
 namespace GeekBrainsWork1.Domain.Entities
 {
@@ -11,8 +12,11 @@ namespace GeekBrainsWork1.Domain.Entities
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Поле Логин не может быть пустым", AllowEmptyStrings = false)]
         public string Login { get; set; }
 
+        [Required(ErrorMessage = "Поле Пароль не может быть пустым", AllowEmptyStrings = false)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public int RoleId { get; set; }

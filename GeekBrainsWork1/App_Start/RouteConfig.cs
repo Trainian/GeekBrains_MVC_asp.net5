@@ -16,7 +16,7 @@ namespace GeekBrainsWork1
             routes.MapRoute(
                 name: "Employees",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Employees", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
