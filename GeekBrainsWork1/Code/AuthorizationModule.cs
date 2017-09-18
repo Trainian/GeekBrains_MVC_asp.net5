@@ -11,7 +11,10 @@
 
         private string[] allowedUsers = new string[] { };
         private string[] allowedRoles = new string[] { };
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
 
+        }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (!string.IsNullOrEmpty(this.Users))

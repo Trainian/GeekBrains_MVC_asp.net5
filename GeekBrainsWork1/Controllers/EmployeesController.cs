@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GeekBrainsWork1.DAL.Context;
 using GeekBrainsWork1.Domain.Entities;
 using System.Threading;
+using GeekBrainsWork1.Code;
 
 namespace GeekBrainsWork1.Controllers
 {
@@ -34,6 +35,7 @@ namespace GeekBrainsWork1.Controllers
         }
 
         // GET: Employees/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,6 +51,7 @@ namespace GeekBrainsWork1.Controllers
         }
 
         // GET: Employees/Create
+        [AuthorizationModule(Roles = "administrator")]
         public ActionResult Create()
         {
             ViewBag.PositionId = new SelectList(dbContext.Position, "Id", "Name");
@@ -74,6 +77,7 @@ namespace GeekBrainsWork1.Controllers
         }
 
         // GET: Employees/Edit/5
+        [AuthorizationModule(Roles = "administrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -107,6 +111,7 @@ namespace GeekBrainsWork1.Controllers
         }
 
         // GET: Employees/Delete/5
+        [AuthorizationModule(Roles = "administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -27,7 +27,7 @@ namespace GeekBrainsWork1.DAL.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            
+
             context.Employee.AddOrUpdate(x => x.Id,
                 new Employee () { Id = 1, FirstName = "Dmitriy", SurName = "Gorbovskiy", Patronymie = "Vladimirovich", Age = 26, PositionId = 1},
                 new Employee() { Id = 2, FirstName = "Denis", SurName = "Gorbovskiy", Patronymie = "Vladimirovich", Age = 18, PositionId = 2 }
